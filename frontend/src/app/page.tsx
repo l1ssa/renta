@@ -1,4 +1,4 @@
-import Link from 'next/link';import Image from 'next/image';import ConsultForm from '@/components/ConsultForm';import ServiceIcon from '@/components/ServiceIcon';import {api} from '@/lib/api';
+import Link from 'next/link';import Image from 'next/image';import ConsultForm from '@/components/ConsultForm';import ServiceIcon from '@/components/ServiceIcon';import {api, asset} from '@/lib/api';
 
 const featured = [
   {slug:'oformlenie-dokumentov',title:'Оформление документов',description:'Поможем собрать и оформить необходимые документы для погребения.',icon:'documents'},
@@ -34,7 +34,7 @@ export default async function Home(){
         </div>
         <div className="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v5c0 4.5-2.8 8.3-7 10-4.2-1.7-7-5.5-7-10V6l7-3z"/></svg><span><b>Без обязательств.</b><br/>Спокойно обсудим вашу ситуацию и подскажем, с чего начать.</span></div>
       </div>
-      <div className="heroImage"><Image src="/images/hero-salon.png" alt="Наш зал ритуальных услуг" fill sizes="(max-width: 900px) 100vw, 58vw" style={{objectFit:'cover'}} priority/></div>
+      <div className="heroImage"><Image src={asset('/images/hero-salon.png')} alt="Наш зал ритуальных услуг" fill sizes="(max-width: 900px) 100vw, 58vw" style={{objectFit:'cover'}} priority/></div>
     </section>
 
     <section className="section" id="services">

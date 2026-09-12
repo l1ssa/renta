@@ -1,5 +1,6 @@
 'use client';
 import {FormEvent,useState} from 'react';
+import Link from 'next/link';
 import {api} from '@/lib/api';
 
 export default function ConsultForm(){
@@ -39,11 +40,11 @@ export default function ConsultForm(){
       <textarea name="message" placeholder="Как мы можем вам помочь?" rows={5}/>
       <label>
         <input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)} required/>
-        <span>Соглашаюсь на <a href="/privacy-policy" target="_blank" rel="noopener">обработку персональных данных</a></span>
+        <span>Соглашаюсь на <Link href="/privacy-policy" target="_blank" rel="noopener">обработку персональных данных</Link></span>
       </label>
       <label>
         <input type="checkbox" checked={offer} onChange={e=>setOffer(e.target.checked)} required/>
-        <span>Принимаю условия <a href="/oferta" target="_blank" rel="noopener">публичной оферты</a></span>
+        <span>Принимаю условия <Link href="/oferta" target="_blank" rel="noopener">публичной оферты</Link></span>
       </label>
       {error && <p className="formError">{error}</p>}
       <button className="button dark" disabled={busy || !consent || !offer}>{busy?'Отправляем…':'Получить консультацию'}</button>

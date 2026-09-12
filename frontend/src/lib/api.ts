@@ -33,4 +33,11 @@ export function imageUrl(path?:string):string{
   return path.startsWith('http')?path:`${API_ROOT}${path}`;
 }
 
+// Префикс для локальных файлов из public/ (next/image с unoptimized:true не
+// подставляет basePath в src сам) — используйте для картинок из public/,
+// например asset('/images/hero-salon.png').
+export function asset(path:string):string{
+  return `${process.env.NEXT_PUBLIC_BASE_PATH||''}${path}`;
+}
+
 export {API};
