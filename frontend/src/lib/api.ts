@@ -1,12 +1,18 @@
 const API=process.env.NEXT_PUBLIC_API_URL||'http://localhost:8080/api';
 export const API_ROOT=API.replace(/\/api\/?$/,'');
 
+// В статической сборке для GitHub Pages бэкенда во время build нет —
+// данные запекаются один раз, поэтому кэш fetch нельзя принудительно
+// отключать (иначе Next.js посчитает страницу динамической и не сможет
+// экспортировать её в статику).
+const IS_STATIC_EXPORT = process.env.GITHUB_PAGES==='true';
+
 export async function api<T>(path:string, options?:RequestInit):Promise<T>{
   const r=await fetch(`${API}${path}`,{
     ...options,
     credentials:'include',
     headers:{'Content-Type':'application/json',...(options?.headers||{})},
-    cache:'no-store'
+    ...(IS_STATIC_EXPORT ? {} : {cache:'no-store' as RequestCache}),
   });
   if(!r.ok)throw new Error(await r.text());
   return r.json();

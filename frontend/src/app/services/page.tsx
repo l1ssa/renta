@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import {api} from '@/lib/api';
+import {fallbackServices} from '@/lib/fallbackData';
 
 export default async function Services(){
-  let services:any[] = [];
+  let services:any[] = fallbackServices;
   try{ services = await api<any[]>('/services'); }catch{}
   return (
     <main className="inner container">

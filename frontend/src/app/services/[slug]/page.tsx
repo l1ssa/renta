@@ -1,14 +1,24 @@
 import Link from 'next/link';
 import {notFound} from 'next/navigation';
 import {api} from '@/lib/api';
+import {fallbackServices} from '@/lib/fallbackData';
+
+async function getServices(){
+  try{
+    return await api<any[]>('/services');
+  }catch{
+    return fallbackServices;
+  }
+}
 
 async function getService(slug:string){
-  try{
-    const services = await api<any[]>('/services');
-    return services.find((s:any)=>s.slug===slug) || null;
-  }catch{
-    return null;
-  }
+  const services = await getServices();
+  return services.find((s:any)=>s.slug===slug) || null;
+}
+
+export async function generateStaticParams(){
+  const services = await getServices();
+  return services.map((s:any)=>({slug:s.slug}));
 }
 
 export async function generateMetadata({params}:{params:{slug:string}}){
