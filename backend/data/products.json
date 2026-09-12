@@ -1,0 +1,8 @@
+[
+  {"id":"1","category":"Гробы","title":"Ритуальные гробы","description":"Каталог гробов различных моделей и вариантов отделки.","price":"","priceOnRequest":true,"image":"","active":true},
+  {"id":"2","category":"Венки","title":"Ритуальные венки","description":"Венки и композиции для церемонии прощания.","price":"","priceOnRequest":true,"image":"","active":true},
+  {"id":"3","category":"Текстиль","title":"Ритуальный текстиль","description":"Необходимые текстильные принадлежности для церемонии.","price":"","priceOnRequest":true,"image":"","active":true},
+  {"id":"4","category":"Принадлежности","title":"Ритуальные принадлежности","description":"Основные принадлежности для организации похорон.","price":"","priceOnRequest":true,"image":"","active":true},
+  {"id":"5","category":"Кремация","title":"Принадлежности для кремации","description":"Товары для организации кремации.","price":"","priceOnRequest":true,"image":"","active":true},
+  {"id":"6","category":"Памятные товары","title":"Памятные изделия","description":"Изделия для оформления места памяти.","price":"","priceOnRequest":true,"image":"","active":true}
+]
