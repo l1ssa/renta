@@ -4,7 +4,7 @@ export default function PrivacyPolicy(){
       <div className="eyebrow">ДОКУМЕНТ</div>
       <h1>Политика обработки персональных данных</h1>
       <p className="lead">
-        ООО «РЕНТА», сайт [указать домен] (далее — «Сайт»)
+        ООО «РЕНТА», сайт рента-пермь.рф (далее — «Сайт»)
       </p>
 
       <div className="legalDoc">

@@ -1,11 +1,15 @@
 # Деплой на облачный сервер reg.ru
 
 Инфраструктура готова заранее — этот файл понадобится, когда будет куплен
-домен и облачный сервер на reg.ru.
+облачный сервер на reg.ru.
+
+Домен: **рента-пермь.рф**
+ASCII/punycode-форма (нужна для DNS и настроек сервера — кириллица напрямую
+там не используется): **xn----7sboc9acqdgp0j.xn--p1ai**
 
 ## 1. Домен
 
-В панели reg.ru → Домены → (ваш домен) → DNS-серверы/Управление записями:
+В панели reg.ru → Домены → рента-пермь.рф → DNS-серверы/Управление записями:
 добавьте **A-запись** `@` (и при желании `www`), указывающую на IP облачного
 сервера. Распространение может занять до нескольких часов.
 
@@ -30,7 +34,12 @@ curl -fsSL https://get.docker.com | sh
 git clone https://github.com/l1ssa/renta.git
 cd renta
 cp .env.example .env
-nano .env   # заполните ADMIN_PASSWORD, ADMIN_SECRET, TELEGRAM_*, DOMAIN
+nano .env   # заполните ADMIN_PASSWORD, ADMIN_SECRET, TELEGRAM_*
+```
+
+В `.env` пропишите:
+```
+DOMAIN=xn----7sboc9acqdgp0j.xn--p1ai
 ```
 
 `ADMIN_SECRET` — любая случайная строка, например:
