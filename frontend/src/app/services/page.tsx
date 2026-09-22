@@ -9,7 +9,7 @@ export default async function Services(){
     <main className="inner container">
       <div className="eyebrow">РИТУАЛЬНЫЕ УСЛУГИ · ПЕРМЬ</div>
       <h1>Услуги</h1>
-      <p className="lead">Помогаем организовать похороны, кремацию и другие необходимые процедуры. Состав услуги можно обсудить с сотрудником индивидуально.</p>
+      <p className="lead">Организация похорон, кремации и других необходимых процедур. Состав услуг можно обсудить с сотрудником индивидуально.</p>
       <div className="allServices">
         {services.map((s:any)=>
           <article key={s.id}>

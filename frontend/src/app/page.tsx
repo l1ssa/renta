@@ -1,8 +1,8 @@
 import Link from 'next/link';import Image from 'next/image';import ConsultForm from '@/components/ConsultForm';import ServiceIcon from '@/components/ServiceIcon';import {api, asset} from '@/lib/api';
 
 const featured = [
-  {slug:'oformlenie-dokumentov',title:'Оформление документов',description:'Поможем собрать и оформить необходимые документы для погребения.',icon:'documents'},
-  {slug:'proshchalnyy-zal',title:'Прощальный зал',description:'Подберём и организуем подходящее место для прощания.',icon:'hall'},
+  {slug:'oformlenie-dokumentov',title:'Оформление документов',description:'Поможем оформить необходимые документы для погребения.',icon:'documents'},
+  {slug:'proshchalnyy-zal',title:'Прощальный зал',description:'Подбор и подготовка пространства для траурной церемонии.',icon:'hall'},
   {slug:'ritualnyy-transport',title:'Ритуальный транспорт',description:'Предоставим катафалк и дополнительный транспорт.',icon:'transport'},
   {slug:'organizatsiya-kremacii',title:'Кремация',description:'Услуги кремации и погребения.',icon:'cremation'},
   {slug:'tanatopodgotovka',title:'Танатоподготовка',description:'Гигиенические, косметические и реставрационные процедуры.',icon:'thanato'},
@@ -32,7 +32,7 @@ export default async function Home(){
           <Link className="button dark" href="#consult">Получить консультацию</Link>
           <a className="button light" href="tel:+79504596705"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>&nbsp;Позвонить</a>
         </div>
-        <div className="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v5c0 4.5-2.8 8.3-7 10-4.2-1.7-7-5.5-7-10V6l7-3z"/></svg><span><b>Без обязательств.</b><br/>Спокойно обсудим вашу ситуацию и подскажем, с чего начать.</span></div>
+        <div className="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v5c0 4.5-2.8 8.3-7 10-4.2-1.7-7-5.5-7-10V6l7-3z"/></svg><span><b>Без обязательств.</b><br/>Обсудим и подскажем с чего начать.</span></div>
       </div>
       <div className="heroImage"><Image src={asset('/images/hero-salon.png')} alt="Наш зал ритуальных услуг" fill sizes="(max-width: 900px) 100vw, 58vw" style={{objectFit:'cover'}} priority/></div>
     </section>
@@ -66,7 +66,7 @@ export default async function Home(){
         <div className="eyebrow">КАК ВСЁ ПРОХОДИТ</div>
         <h2>Сопровождаем на каждом этапе</h2>
         <div className="steps">
-          <div><b>01</b><h3>Связываемся</h3><p>Вы звоните или оставляете заявку. Специалист отвечает и уточняет ситуацию.</p></div>
+          <div><b>01</b><h3>Связываемся</h3><p>Вы звоните или оставляете заявку. Специалист отвечает и уточняет информацию.</p></div>
           <div><b>02</b><h3>Составляем план</h3><p>Обсуждаем необходимые услуги, документы, транспорт и ритуальные принадлежности.</p></div>
           <div><b>03</b><h3>Организуем</h3><p>Берём на себя согласованные организационные вопросы и сопровождаем церемонию.</p></div>
         </div>
@@ -77,7 +77,6 @@ export default async function Home(){
       <div>
         <div className="eyebrow">БЕСПЛАТНАЯ КОНСУЛЬТАЦИЯ</div>
         <h2>Мы поможем разобраться, с чего начать</h2>
-        <p>Спокойно обсудим вашу ситуацию и объясним, какие действия необходимы сейчас.</p>
       </div>
       <ConsultForm/>
     </section>
