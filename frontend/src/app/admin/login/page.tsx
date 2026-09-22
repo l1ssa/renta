@@ -36,7 +36,7 @@ export default function AdminLogin(){
   return (
     <main className="adminPage">
       <div className="loginBox">
-        <div className="loginLogo"><BrandMark size={34}/><span>РЕНТА<small>CMS</small></span></div>
+        <div className="loginLogo"><BrandMark size={34}/><span>РЕНТА</span></div>
         <h1>Вход в админ-панель</h1>
         <form onSubmit={submit}>
           <input
