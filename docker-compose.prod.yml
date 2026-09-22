@@ -1,6 +1,10 @@
-# Продовый оверлей: добавляет Caddy (автоматический HTTPS по домену) и
-# закрывает прямой доступ к frontend/backend портам — весь трафик идёт
-# через Caddy. Использование:
+# Продовый оверлей: добавляет Caddy (автоматический HTTPS по домену).
+# В базовом docker-compose.yml у backend/frontend нет публикуемых портов —
+# наружу торчит только Caddy (80/443), backend и frontend видны только
+# внутри докер-сети. Порты 8080/3000 наружу публикуются отдельно, только
+# для локальной разработки, через docker-compose.override.yml (подхватывается
+# автоматически простым `docker compose up`, но не при явном -f, как здесь).
+# Использование:
 #   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 #
 # Перед запуском задайте в .env:
@@ -28,10 +32,6 @@ services:
         NEXT_PUBLIC_API_URL: /api
     environment:
       INTERNAL_API_URL: http://backend:8080/api
-    ports: []
-
-  backend:
-    ports: []
 
 volumes:
   caddy_data:
