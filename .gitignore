@@ -13,3 +13,4 @@ backend/data/*.db-wal
 Thumbs.db
 
 .env
+backups/
