@@ -137,6 +137,7 @@ func leadsHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		go notifyTelegram(x)
+		go notifyEmail(x)
 		jsonResponse(w, 201, map[string]any{"ok": true, "message": "Заявка отправлена"})
 		return
 	}
