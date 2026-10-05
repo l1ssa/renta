@@ -23,12 +23,12 @@ services:
       ADMIN_SECRET: ${ADMIN_SECRET:-change-me-too-please-and-make-it-random}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
       TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
-      SMTP_HOST: ${SMTP_HOST:-smtp.mail.ru}
+      SMTP_HOST: ${SMTP_HOST:-smtp.gmail.com}
       SMTP_PORT: ${SMTP_PORT:-587}
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASSWORD: ${SMTP_PASSWORD:-}
       SMTP_FROM: ${SMTP_FROM:-}
-      SMTP_TO: ${SMTP_TO:-renta_fs@mail.ru}
+      SMTP_TO: ${SMTP_TO:-postsonya684@gmail.com}
       POSTGRES_HOST: db
       POSTGRES_PORT: "5432"
       POSTGRES_USER: renta
