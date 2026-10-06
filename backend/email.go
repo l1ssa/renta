@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
+	"log"
 	"net/smtp"
 	"os"
 	"strings"
@@ -42,5 +43,7 @@ func notifyEmail(lead Item) {
 	msg.WriteString(body)
 
 	auth := smtp.PlainAuth("", user, pass, host)
-	_ = smtp.SendMail(host+":"+port, auth, from, []string{to}, []byte(msg.String()))
+	if err := smtp.SendMail(host+":"+port, auth, from, []string{to}, []byte(msg.String())); err != nil {
+		log.Printf("письмо о заявке не отправлено: %v", err)
+	}
 }

@@ -6,12 +6,76 @@ import (
 	"crypto/subtle"
 	"encoding/hex"
 	"encoding/json"
+	"net"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
+
+// --- Защита /api/login от подбора пароля ---
+// После нескольких неверных попыток с одного IP вход блокируется на время.
+// Без этого пароль админки можно подбирать перебором без ограничений.
+const (
+	maxLoginAttempts = 5
+	loginLockout     = 15 * time.Minute
+)
+
+type loginAttemptState struct {
+	count       int
+	lockedUntil time.Time
+}
+
+var (
+	loginAttemptsMu sync.Mutex
+	loginAttempts   = map[string]*loginAttemptState{}
+)
+
+// clientIP учитывает X-Forwarded-For: в проде перед backend стоит Caddy, и
+// r.RemoteAddr иначе всегда был бы адресом самого Caddy.
+func clientIP(r *http.Request) string {
+	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
+		return strings.TrimSpace(strings.Split(xff, ",")[0])
+	}
+	host, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		return r.RemoteAddr
+	}
+	return host
+}
+
+func loginRateLimited(ip string) (bool, time.Duration) {
+	loginAttemptsMu.Lock()
+	defer loginAttemptsMu.Unlock()
+	st := loginAttempts[ip]
+	if st == nil || !time.Now().Before(st.lockedUntil) {
+		return false, 0
+	}
+	return true, time.Until(st.lockedUntil)
+}
+
+func recordLoginFailure(ip string) {
+	loginAttemptsMu.Lock()
+	defer loginAttemptsMu.Unlock()
+	st := loginAttempts[ip]
+	if st == nil {
+		st = &loginAttemptState{}
+		loginAttempts[ip] = st
+	}
+	st.count++
+	if st.count >= maxLoginAttempts {
+		st.lockedUntil = time.Now().Add(loginLockout)
+		st.count = 0
+	}
+}
+
+func recordLoginSuccess(ip string) {
+	loginAttemptsMu.Lock()
+	defer loginAttemptsMu.Unlock()
+	delete(loginAttempts, ip)
+}
 
 // ВАЖНО: перед реальным запуском задайте ADMIN_PASSWORD и ADMIN_SECRET через
 // переменные окружения (см. docker-compose.yml) — значения по умолчанию
@@ -78,6 +142,11 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(405)
 		return
 	}
+	ip := clientIP(r)
+	if locked, wait := loginRateLimited(ip); locked {
+		jsonResponse(w, 429, map[string]any{"error": "Слишком много попыток. Попробуйте через " + strconv.Itoa(int(wait.Minutes())+1) + " мин."})
+		return
+	}
 	var body struct {
 		Password string `json:"password"`
 	}
@@ -86,9 +155,11 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if subtle.ConstantTimeCompare([]byte(body.Password), []byte(adminPassword())) != 1 {
+		recordLoginFailure(ip)
 		jsonResponse(w, 401, map[string]any{"error": "Неверный пароль"})
 		return
 	}
+	recordLoginSuccess(ip)
 	exp := time.Now().Add(12 * time.Hour).Unix()
 	http.SetCookie(w, &http.Cookie{
 		Name:     "renta_session",
