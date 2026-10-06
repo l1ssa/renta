@@ -2,6 +2,7 @@
 import {useState, FormEvent} from 'react';
 import {useRouter} from 'next/navigation';
 import {API} from '@/lib/api';
+import {ADMIN_PATH} from '@/lib/adminPath';
 import BrandMark from '@/components/BrandMark';
 
 export default function AdminLogin(){
@@ -24,7 +25,7 @@ export default function AdminLogin(){
         const d=await r.json().catch(()=>({}));
         throw new Error(d.error||'Ошибка входа');
       }
-      router.push('/admin');
+      router.push(ADMIN_PATH);
       router.refresh();
     }catch(err:any){
       setError(err.message||'Ошибка входа');

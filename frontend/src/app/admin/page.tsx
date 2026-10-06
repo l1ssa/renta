@@ -6,6 +6,7 @@ import {maskPhone} from '@/lib/format';
 import FlowerIcon from '@/components/FlowerIcon';
 import BrandMark from '@/components/BrandMark';
 import Modal from '@/components/Modal';
+import {ADMIN_LOGIN} from '@/lib/adminPath';
 
 type Item = Record<string, any>;
 
@@ -69,10 +70,10 @@ export default function Admin(){
     (async () => {
       try{
         const me = await api<{authed:boolean}>('/me');
-        if(!me.authed){ router.push('/admin/login'); return; }
+        if(!me.authed){ router.push(ADMIN_LOGIN); return; }
         await reload();
       }catch{
-        router.push('/admin/login');
+        router.push(ADMIN_LOGIN);
       }finally{
         setAuthChecked(true);
       }
@@ -81,7 +82,7 @@ export default function Admin(){
 
   async function logout(){
     await api('/logout', {method:'POST'});
-    router.push('/admin/login');
+    router.push(ADMIN_LOGIN);
   }
 
   const productCategories = Array.from(new Set(products.map(p=>p.category).filter(Boolean)));

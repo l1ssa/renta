@@ -1,6 +1,5 @@
 import './globals.scss';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import SiteChrome from '@/components/SiteChrome';
 
 export const metadata = {
   title: 'Рента — ритуальные услуги в Перми',
@@ -15,9 +14,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body>
-        <Header />
-        {children}
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

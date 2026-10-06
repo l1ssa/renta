@@ -11,6 +11,8 @@ COPY . .
 # build ARG (см. docker-compose.prod.yml для продового значения).
 ARG NEXT_PUBLIC_API_URL=http://localhost:8080/api
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_ADMIN_PATH=admin
+ENV NEXT_PUBLIC_ADMIN_PATH=$NEXT_PUBLIC_ADMIN_PATH
 RUN npm run build
 FROM node:20-alpine
 WORKDIR /app
