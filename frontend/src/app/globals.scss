@@ -10,7 +10,7 @@
 
 /* Админка: счётчик заявок и карточка заявки */
 .leadsCount{font-size:13px;color:var(--muted);margin:0 0 10px}
-.leadDetail{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0}
+.leadDetail{display:grid;grid-template-columns:max-content 1fr;gap:12px 22px;margin:0;padding:4px 24px 26px}
 .leadDetail dt{color:var(--muted);font-size:13px}
 .leadDetail dd{margin:0;font-size:15px;word-break:break-word}
 @media(max-width:600px){.leadDetail{grid-template-columns:1fr;gap:2px 0}.leadDetail dd{margin-bottom:10px}}
