@@ -6,6 +6,8 @@
     min-height: 0;
     align-content: start;
     grid-auto-rows: auto;
+    /* minmax(0, 1fr): широкие поля не растягивают страницу за ширину экрана */
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .adminLayout > aside {
