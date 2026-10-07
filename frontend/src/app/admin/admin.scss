@@ -1,0 +1,35 @@
+// Мобильная версия админки: меню становится компактной полоской кнопок
+// вместо высоких блоков на весь экран.
+@media (max-width: 900px) {
+  .adminLayout > aside {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+  }
+
+  .adminLayout > aside .adminLogo {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  .adminLayout > aside button {
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 14px;
+    line-height: 1.2;
+    align-self: center;
+    border-radius: 8px;
+  }
+
+  .adminLayout > aside button:last-child {
+    margin-left: auto;
+  }
+
+  .adminTop h1 {
+    font-size: 28px;
+  }
+}

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import './admin.scss';
 
 // Админку не должны индексировать поисковики.
 export const metadata = {
