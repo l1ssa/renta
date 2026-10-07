@@ -41,6 +41,7 @@ export default function Admin(){
   const [editingCategory, setEditingCategory] = useState<string|null>(null);
   const [productFilter, setProductFilter] = useState('all');
   const [leadQuery, setLeadQuery] = useState('');
+  const [leadDetail, setLeadDetail] = useState<Item | null>(null);
   const [revealedLead, setRevealedLead] = useState<string|null>(null);
   const [uploading, setUploading] = useState(false);
   const [serviceModalOpen, setServiceModalOpen] = useState(false);
@@ -379,9 +380,10 @@ export default function Admin(){
               <input placeholder="Например, Иван или 950" value={leadQuery} onChange={e=>setLeadQuery(e.target.value)}/>
               <button className="button dark" type="button" onClick={exportLeadsCsv} disabled={filteredLeads.length===0}>Выгрузить в CSV</button>
             </div>
+            <p className="leadsCount">Заявок: {filteredLeads.length}{leadQuery.trim() ? ` из ${leads.length}` : ''}</p>
             <div className="tableWrap">
               <table>
-                <thead><tr><th>Дата</th><th>Имя</th><th>Телефон</th><th>Сообщение</th></tr></thead>
+                <thead><tr><th>Дата</th><th>Имя</th><th>Телефон</th><th>Сообщение</th><th></th></tr></thead>
                 <tbody>
                   {filteredLeads.map(l=>
                     <tr key={l.id}>
@@ -392,12 +394,24 @@ export default function Admin(){
                         <button onClick={()=>setRevealedLead(revealedLead===l.id?null:l.id)}>{revealedLead===l.id?'Скрыть':'Показать'}</button>
                       </td>
                       <td>{l.message||'—'}</td>
+                      <td><button onClick={()=>setLeadDetail(l)}>Открыть</button></td>
                     </tr>
                   )}
-                  {filteredLeads.length===0 && <tr><td colSpan={4}>Заявок не найдено.</td></tr>}
+                  {filteredLeads.length===0 && <tr><td colSpan={5}>Заявок не найдено.</td></tr>}
                 </tbody>
               </table>
             </div>
+            {leadDetail && <Modal title={`Заявка от ${leadDetail.name||'без имени'}`} onClose={()=>setLeadDetail(null)}>
+              <dl className="leadDetail">
+                <dt>Дата</dt><dd>{leadDetail.createdAt?new Date(leadDetail.createdAt).toLocaleString('ru-RU'):'—'}</dd>
+                <dt>Имя</dt><dd>{leadDetail.name||'—'}</dd>
+                <dt>Телефон</dt><dd>{leadDetail.phone||'—'}</dd>
+                <dt>Сообщение</dt><dd>{leadDetail.message||'—'}</dd>
+                <dt>Согласие на обработку ПД</dt><dd>{leadDetail.consent?'Да':'Нет'}</dd>
+                <dt>Принята оферта</dt><dd>{leadDetail.offerAccepted?'Да':'Нет'}</dd>
+                <dt>Номер заявки</dt><dd>{leadDetail.id}</dd>
+              </dl>
+            </Modal>}
           </>}
 
           {tab==='settings' && <form className="adminForm settingsForm" onSubmit={saveSettings}>
