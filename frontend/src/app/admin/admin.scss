@@ -1,6 +1,13 @@
 // Мобильная версия админки: меню становится компактной полоской кнопок
 // вместо высоких блоков на весь экран.
 @media (max-width: 900px) {
+  /* min-height у сетки раздувал строки меню: держим строки прижатыми к верху */
+  .adminLayout {
+    min-height: 0;
+    align-content: start;
+    grid-auto-rows: auto;
+  }
+
   .adminLayout > aside {
     flex-direction: row;
     flex-wrap: wrap;
