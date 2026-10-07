@@ -91,6 +91,18 @@ export default function Admin(){
     ? leads.filter(l => `${l.name||''} ${l.phone||''}`.toLowerCase().includes(leadQuery.trim().toLowerCase()))
     : leads;
 
+  // Выгрузка заявок в CSV: разделитель «;» и BOM, чтобы Excel открыл русский текст правильно.
+  function exportLeadsCsv(){
+    const head=['Дата','Имя','Телефон','Сообщение','ID'];
+    const cell=(v:any)=>{ const s=String(v??''); return /[";\r\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s; };
+    const rows=filteredLeads.map(l=>[l.createdAt?new Date(l.createdAt).toLocaleString('ru-RU'):'', l.name, l.phone, l.message, l.id]);
+    const csv=[head,...rows].map(r=>r.map(cell).join(';')).join('\r\n');
+    const url=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}));
+    const a=document.createElement('a');
+    a.href=url; a.download=`zayavki-${new Date().toISOString().slice(0,10)}.csv`; a.click();
+    URL.revokeObjectURL(url);
+  }
+
   async function saveService(e:any){
     e.preventDefault();
     await api(editing ? `/services?id=${editing}` : '/services', {method: editing?'PUT':'POST', body: JSON.stringify(form)});
@@ -365,6 +377,7 @@ export default function Admin(){
             <div className="filterBar">
               <label>Поиск по имени или телефону</label>
               <input placeholder="Например, Иван или 950" value={leadQuery} onChange={e=>setLeadQuery(e.target.value)}/>
+              <button className="button dark" type="button" onClick={exportLeadsCsv} disabled={filteredLeads.length===0}>Выгрузить в CSV</button>
             </div>
             <div className="tableWrap">
               <table>
