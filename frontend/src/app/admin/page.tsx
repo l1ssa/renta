@@ -220,10 +220,9 @@ export default function Admin(){
 
           {tab==='dashboard' && <>
             <div className="statGrid">
-              <div className="stat"><span>Посещения сегодня</span><b>{stats.visitsToday||0}</b></div>
-              <div className="stat"><span>За неделю</span><b>{stats.visitsWeek||0}</b></div>
-              <div className="stat"><span>За месяц</span><b>{stats.visitsMonth||0}</b></div>
               <div className="stat"><span>Заявки</span><b>{stats.leads||0}</b></div>
+              <div className="stat"><span>Услуги</span><b>{stats.services||0}</b></div>
+              <div className="stat"><span>Товары</span><b>{stats.products||0}</b></div>
             </div>
           </>}
 

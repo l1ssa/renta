@@ -223,10 +223,9 @@ func statsHandler(w http.ResponseWriter, r *http.Request) {
 	_ = db.QueryRow(`SELECT COUNT(*) FROM leads`).Scan(&leadCount)
 	_ = db.QueryRow(`SELECT COUNT(*) FROM items WHERE kind='services'`).Scan(&serviceCount)
 	_ = db.QueryRow(`SELECT COUNT(*) FROM items WHERE kind='products'`).Scan(&productCount)
-	// Посещения — пока заглушка. Подключите Яндекс.Метрику и передавайте
-	// реальные цифры сюда же, либо просматривайте статистику прямо в Метрике.
+	// Посещения сайта здесь не считаются — для этого нужна отдельная система
+	// аналитики (например, Яндекс.Метрика), подключённая на фронтенде.
 	jsonResponse(w, 200, map[string]any{
-		"visitsToday": 128, "visitsWeek": 846, "visitsMonth": 3241,
 		"leads": leadCount, "services": serviceCount, "products": productCount,
 	})
 }
