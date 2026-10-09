@@ -18,7 +18,7 @@ const settingLabels:Record<string,string> = {
   company:'Название организации', brand:'Бренд (название сайта)', subtitle:'Подзаголовок бренда',
   city:'Город', address:'Адрес', phone:'Телефон', phone2:'Телефон (доп.)', email:'Email',
   heroTitle:'Заголовок на главной', heroText:'Текст на главной', hours:'Часы работы',
-  notifyEmail:'Получатель заявок на почту',
+  notifyEmail:'Получатель заявок на почту (можно несколько через запятую)',
 };
 
 export default function Admin(){
