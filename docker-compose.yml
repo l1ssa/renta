@@ -45,7 +45,11 @@ services:
         NEXT_PUBLIC_API_URL: http://localhost:8080/api
         NEXT_PUBLIC_ADMIN_PATH: ${ADMIN_PATH:-admin}
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://рента-пермь.рф}
-        YANDEX_VERIFICATION: ${YANDEX_VERIFICATION:-}
+    environment:
+      # Главная и часть других страниц рендерятся на каждый запрос, а не
+      # собираются заранее — этой переменной нужен рантайм, а не build arg,
+      # иначе в финальном образе её бы не было.
+      YANDEX_VERIFICATION: ${YANDEX_VERIFICATION:-}
     depends_on:
       - backend
     restart: unless-stopped
