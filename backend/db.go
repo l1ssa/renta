@@ -157,6 +157,21 @@ func seedFromJSON() {
 	}
 }
 
+func getSetting(key string) string {
+	var v string
+	_ = db.QueryRow(`SELECT value FROM settings WHERE key=$1`, key).Scan(&v)
+	return v
+}
+
+// ensureSetting создаёт настройку со значением по умолчанию, если её ещё нет —
+// в отличие от seedFromJSON, срабатывает и когда таблица settings не пустая.
+func ensureSetting(key, def string) {
+	if def == "" {
+		return
+	}
+	_, _ = db.Exec(`INSERT INTO settings(key,value) VALUES($1,$2) ON CONFLICT (key) DO NOTHING`, key, def)
+}
+
 func dbListItems(kind string) ([]Item, error) {
 	rows, err := db.Query(`SELECT data FROM items WHERE kind=$1 ORDER BY created_at`, kind)
 	if err != nil {

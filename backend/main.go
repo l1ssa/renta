@@ -236,6 +236,9 @@ func main() {
 	_ = os.MkdirAll(uploadsDir, 0755)
 	initDB()
 	defer db.Close()
+	// Получатель писем о заявках редактируется в админке («Настройки»), но при
+	// первом запуске берём его из SMTP_TO, чтобы не заводить вручную.
+	ensureSetting("notifyEmail", os.Getenv("SMTP_TO"))
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/services", crudHandler("services"))

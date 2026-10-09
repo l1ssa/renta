@@ -10,12 +10,17 @@ import (
 )
 
 // notifyEmail sends a plain-text message about a new lead via SMTP (STARTTLS).
-// Silently does nothing if SMTP_HOST, SMTP_USER, SMTP_PASSWORD or SMTP_TO is unset.
+// Получатель настраивается в админке («Настройки» → «Получатель заявок на
+// почту»), а при пустом значении там — берётся из SMTP_TO. Silently does
+// nothing if SMTP_HOST, SMTP_USER, SMTP_PASSWORD or the recipient is unset.
 func notifyEmail(lead Item) {
 	host := os.Getenv("SMTP_HOST")
 	user := os.Getenv("SMTP_USER")
 	pass := os.Getenv("SMTP_PASSWORD")
-	to := os.Getenv("SMTP_TO")
+	to := strings.TrimSpace(getSetting("notifyEmail"))
+	if to == "" {
+		to = os.Getenv("SMTP_TO")
+	}
 	if host == "" || user == "" || pass == "" || to == "" {
 		return
 	}
