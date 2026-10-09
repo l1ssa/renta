@@ -10,7 +10,11 @@
 
 /* Админка: счётчик заявок и карточка заявки */
 .leadsCount{font-size:13px;color:var(--muted);margin:0 0 10px}
-.leadDetail{display:grid;grid-template-columns:max-content 1fr;gap:12px 22px;margin:0;padding:4px 24px 26px}
-.leadDetail dt{color:var(--muted);font-size:13px}
-.leadDetail dd{margin:0;font-size:15px;word-break:break-word}
-@media(max-width:600px){.leadDetail{grid-template-columns:1fr;gap:2px 0}.leadDetail dd{margin-bottom:10px}}
+.leadDetail{padding:4px 24px 26px}
+.leadDetail dl{display:grid;grid-template-columns:160px 1fr;gap:12px 18px;margin:0 0 20px;font-size:14px}
+.leadDetail dt{color:var(--muted);font-size:12px;padding-top:2px}
+.leadDetail dd{margin:0;word-break:break-word}
+.leadDetail dd a{color:var(--accent);font-weight:600}
+.leadMessage{white-space:pre-wrap;background:var(--soft);border-radius:6px;padding:10px 12px}
+.leadDetailActions{display:grid;gap:10px}
+@media(max-width:600px){.leadDetail dl{grid-template-columns:1fr;gap:2px 0}.leadDetail dt{margin-top:10px}}

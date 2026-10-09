@@ -93,15 +93,18 @@ export default function Admin(){
     : leads;
 
   // Выгрузка заявок в CSV: разделитель «;» и BOM, чтобы Excel открыл русский текст правильно.
-  function exportLeadsCsv(){
+  function downloadLeadsCsv(filename:string, rows:Item[]){
     const head=['Дата','Имя','Телефон','Сообщение','ID'];
     const cell=(v:any)=>{ const s=String(v??''); return /[";\r\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s; };
-    const rows=filteredLeads.map(l=>[l.createdAt?new Date(l.createdAt).toLocaleString('ru-RU'):'', l.name, l.phone, l.message, l.id]);
-    const csv=[head,...rows].map(r=>r.map(cell).join(';')).join('\r\n');
+    const body=rows.map(l=>[l.createdAt?new Date(l.createdAt).toLocaleString('ru-RU'):'', l.name, l.phone, l.message, l.id]);
+    const csv=[head,...body].map(r=>r.map(cell).join(';')).join('\r\n');
     const url=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}));
     const a=document.createElement('a');
-    a.href=url; a.download=`zayavki-${new Date().toISOString().slice(0,10)}.csv`; a.click();
+    a.href=url; a.download=filename; a.click();
     URL.revokeObjectURL(url);
+  }
+  function exportLeadsCsv(){
+    downloadLeadsCsv(`zayavki-${new Date().toISOString().slice(0,10)}.csv`, filteredLeads);
   }
 
   async function saveService(e:any){
@@ -402,15 +405,20 @@ export default function Admin(){
               </table>
             </div>
             {leadDetail && <Modal title={`Заявка от ${leadDetail.name||'без имени'}`} onClose={()=>setLeadDetail(null)}>
-              <dl className="leadDetail">
-                <dt>Дата</dt><dd>{leadDetail.createdAt?new Date(leadDetail.createdAt).toLocaleString('ru-RU'):'—'}</dd>
-                <dt>Имя</dt><dd>{leadDetail.name||'—'}</dd>
-                <dt>Телефон</dt><dd>{leadDetail.phone||'—'}</dd>
-                <dt>Сообщение</dt><dd>{leadDetail.message||'—'}</dd>
-                <dt>Согласие на обработку ПД</dt><dd>{leadDetail.consent?'Да':'Нет'}</dd>
-                <dt>Принята оферта</dt><dd>{leadDetail.offerAccepted?'Да':'Нет'}</dd>
-                <dt>Номер заявки</dt><dd>{leadDetail.id}</dd>
-              </dl>
+              <div className="leadDetail">
+                <dl>
+                  <dt>Дата и время</dt><dd>{leadDetail.createdAt?new Date(leadDetail.createdAt).toLocaleString('ru-RU'):'—'}</dd>
+                  <dt>Имя</dt><dd>{leadDetail.name||'—'}</dd>
+                  <dt>Телефон</dt><dd>{leadDetail.phone ? <a href={`tel:${String(leadDetail.phone).replace(/[^\d+]/g,'')}`}>{leadDetail.phone}</a> : '—'}</dd>
+                  <dt>Сообщение</dt><dd className="leadMessage">{leadDetail.message||'—'}</dd>
+                  <dt>Согласие на обработку ПД</dt><dd>{leadDetail.consent?'да':'нет'}</dd>
+                  <dt>Принята оферта</dt><dd>{leadDetail.offerAccepted?'да':'нет'}</dd>
+                  <dt>Номер заявки</dt><dd>{leadDetail.id}</dd>
+                </dl>
+                <div className="leadDetailActions">
+                  <button type="button" className="button dark" onClick={()=>downloadLeadsCsv(`zayavka-${leadDetail.id}.csv`,[leadDetail])}>Скачать заявку (CSV)</button>
+                </div>
+              </div>
             </Modal>}
           </>}
 
