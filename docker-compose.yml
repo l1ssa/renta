@@ -28,7 +28,7 @@ services:
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASSWORD: ${SMTP_PASSWORD:-}
       SMTP_FROM: ${SMTP_FROM:-}
-      SMTP_TO: ${SMTP_TO:-elenavladimirovnakaz@mail.ru}
+      SMTP_TO: ${SMTP_TO:-renta_fs@mail.ru}
       POSTGRES_HOST: db
       POSTGRES_PORT: "5432"
       POSTGRES_USER: renta
