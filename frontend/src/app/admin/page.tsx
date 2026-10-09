@@ -128,6 +128,7 @@ export default function Admin(){
   async function confirmDelete(){
     if(!deleteTarget) return;
     await api(`/${deleteTarget.type}?id=${deleteTarget.id}`, {method:'DELETE'});
+    if(deleteTarget.type==='leads' && leadDetail?.id===deleteTarget.id) setLeadDetail(null);
     setDeleteTarget(null);
     reload();
   }
@@ -378,26 +379,33 @@ export default function Admin(){
           </form>}
 
           {tab==='leads' && <>
-            <div className="filterBar">
-              <label>Поиск по имени или телефону</label>
-              <input placeholder="Например, Иван или 950" value={leadQuery} onChange={e=>setLeadQuery(e.target.value)}/>
-              <button className="button dark" type="button" onClick={exportLeadsCsv} disabled={filteredLeads.length===0}>Выгрузить в CSV</button>
+            <div className="leadsToolbar">
+              <div className="filterBar">
+                <label>Поиск по имени или телефону</label>
+                <input placeholder="Например, Иван или 950" value={leadQuery} onChange={e=>setLeadQuery(e.target.value)}/>
+              </div>
+              <button className="button dark" type="button" onClick={exportLeadsCsv} disabled={filteredLeads.length===0}>
+                Выгрузить в CSV{leadQuery.trim() ? ` — ${filteredLeads.length}` : ''}
+              </button>
             </div>
             <p className="leadsCount">Заявок: {filteredLeads.length}{leadQuery.trim() ? ` из ${leads.length}` : ''}</p>
             <div className="tableWrap">
-              <table>
+              <table className="leadsTable">
                 <thead><tr><th>Дата</th><th>Имя</th><th>Телефон</th><th>Сообщение</th><th></th></tr></thead>
                 <tbody>
                   {filteredLeads.map(l=>
                     <tr key={l.id}>
                       <td>{new Date(l.createdAt).toLocaleString('ru-RU')}</td>
-                      <td>{l.name}</td>
+                      <td>{l.name||'—'}</td>
                       <td>
                         {revealedLead===l.id ? l.phone : maskPhone(l.phone)}{' '}
                         <button onClick={()=>setRevealedLead(revealedLead===l.id?null:l.id)}>{revealedLead===l.id?'Скрыть':'Показать'}</button>
                       </td>
-                      <td>{l.message||'—'}</td>
-                      <td><button onClick={()=>setLeadDetail(l)}>Открыть</button></td>
+                      <td className="leadMessageCell">{l.message||'—'}</td>
+                      <td className="leadActions">
+                        <button type="button" onClick={()=>setLeadDetail(l)}>Подробнее</button>
+                        <button type="button" onClick={()=>askDelete('leads',l.id,`заявку от ${l.name||'без имени'}`)}>Удалить</button>
+                      </td>
                     </tr>
                   )}
                   {filteredLeads.length===0 && <tr><td colSpan={5}>Заявок не найдено.</td></tr>}
@@ -417,6 +425,7 @@ export default function Admin(){
                 </dl>
                 <div className="leadDetailActions">
                   <button type="button" className="button dark" onClick={()=>downloadLeadsCsv(`zayavka-${leadDetail.id}.csv`,[leadDetail])}>Скачать заявку (CSV)</button>
+                  <button type="button" className="button light" onClick={()=>askDelete('leads',leadDetail.id,`заявку от ${leadDetail.name||'без имени'}`)}>Удалить заявку</button>
                 </div>
               </div>
             </Modal>}

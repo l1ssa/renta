@@ -145,6 +145,20 @@ func leadsHandler(w http.ResponseWriter, r *http.Request) {
 		jsonResponse(w, 401, map[string]any{"error": "Требуется авторизация"})
 		return
 	}
+	if r.Method == "DELETE" {
+		id := r.URL.Query().Get("id")
+		res, err := db.Exec(`DELETE FROM leads WHERE id=$1`, id)
+		if err != nil {
+			jsonResponse(w, 500, map[string]any{"error": err.Error()})
+			return
+		}
+		if n, _ := res.RowsAffected(); n == 0 {
+			jsonResponse(w, 404, map[string]any{"error": "Не найдено"})
+			return
+		}
+		jsonResponse(w, 200, map[string]any{"ok": true})
+		return
+	}
 	rows, err := db.Query(`SELECT data FROM leads ORDER BY created_at DESC`)
 	if err != nil {
 		jsonResponse(w, 500, map[string]any{"error": err.Error()})
